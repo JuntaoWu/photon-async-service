@@ -6,21 +6,25 @@ import postCtrl from '../controllers/post.controller';
 const router = express.Router();
 
 router.route('/')
-  /** GET /api/posts - Get list of posts */
-  .get(postCtrl.list)
+    /** GET /api/posts - Get list of posts */
+    .get((req, res, next) => {
+        postCtrl.list(req.query)
+            .then(users => { res.json(users); })
+            .catch(next);
+    })
 
-  /** POST /api/posts - Create new post */
-  .post(validate(paramValidation.createPost), postCtrl.create);
+    /** POST /api/posts - Create new post */
+    .post(validate(paramValidation.createPost), postCtrl.create);
 
 router.route('/:postId')
-  /** GET /api/post/:postId - Get post */
-  .get(postCtrl.get)
+    /** GET /api/post/:postId - Get post */
+    .get(postCtrl.get)
 
-  /** PUT /api/posts/:postId - Update post */
-  .put(validate(paramValidation.updatePost), postCtrl.update)
+    /** PUT /api/posts/:postId - Update post */
+    .put(validate(paramValidation.updatePost), postCtrl.update)
 
-  /** DELETE /api/posts/:postId - Delete post */
-  .delete(postCtrl.remove);
+    /** DELETE /api/posts/:postId - Delete post */
+    .delete(postCtrl.remove);
 
 /** Load post when API with postId route parameter is hit */
 router.param('postId', postCtrl.load);

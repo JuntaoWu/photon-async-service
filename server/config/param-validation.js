@@ -14,7 +14,12 @@ export default {
       title: Joi.string().required(),
     }
   },
-
+  // POST /api/games
+  createGame: {
+    body: {
+      Type: Joi.string().required(),
+    }
+  },
   // UPDATE /api/users/:userId
   updateUser: {
     body: {
@@ -35,7 +40,15 @@ export default {
       postId: Joi.string().hex().required()
     }
   },
-
+  // UPDATE /api/games/:gameId
+  updateGame: {
+    body: {
+      Type: Joi.string().required(),
+    },
+    params: {
+      GameId: Joi.string().required()
+    }
+  },
   // POST /api/auth/login
   login: {
     body: {
