@@ -27,7 +27,7 @@ router.route('/load')
                 let result = {
                     ResultCode: 0,
                     Message: "OK",
-                    State: game.State,
+                    State: game && game.State,
                 };
                 return res.json(result);
             })
