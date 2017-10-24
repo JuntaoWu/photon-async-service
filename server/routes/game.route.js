@@ -36,6 +36,8 @@ router.route('/load')
 
 router.route('/save')
     .post(validate(paramValidation.createGame), (req, res, next) => {
+        console.log(req.body);
+        
         return gameCtrl.update(req)
             .then(savedGame => {
                 let result = {

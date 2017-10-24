@@ -19,10 +19,11 @@ function update(params) {
         if(game != null) {
             const tmp = game;
             game.State = params.body.State;
-            console.log(game);
+            console.log("Game updated:", game);
         }
         else {
             game = new Game(params.body);
+            console.log("Game created", game);
         }
         return game.save();
     });
