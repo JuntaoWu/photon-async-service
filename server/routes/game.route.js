@@ -37,7 +37,7 @@ router.route('/load')
 router.route('/save')
     .post(validate(paramValidation.createGame), (req, res, next) => {
         console.log(req.body);
-        
+
         return gameCtrl.update(req)
             .then(savedGame => {
                 let result = {
@@ -47,6 +47,16 @@ router.route('/save')
                 return res.json(result);
             })
             .catch(e => next(e));
+    });
+
+router.route('/leave')
+    .post((req, res, next) => {
+        console.log(req.body);
+
+        return res.json({
+            ResultCode: 0,
+            Message: "OK"
+        });
     });
 
 export default router;
