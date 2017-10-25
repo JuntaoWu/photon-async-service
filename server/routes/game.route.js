@@ -12,7 +12,7 @@ router.route('/')
 
         gameCtrl.list(req.query)
             .then(games => {
-                res.json(games);
+                return res.json(games);
             })
             .catch(next);
     });
