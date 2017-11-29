@@ -1,6 +1,5 @@
 import Game from '../models/game.model';
 
-
 function load(params) {
     return Game.get(params.body.GameId);
 }
@@ -10,7 +9,8 @@ function get(req, res) {
 }
 
 function create(params) {
-    const game = new Game(params.body);
+    const body = Object.assign({}, params.body, { State: params.body.CreateOptions });
+    const game = new Game(body);
     return game.save();
 }
 
@@ -19,13 +19,21 @@ function update(params) {
         if(game != null) {
             const tmp = game;
             game.State = params.body.State;
-            console.log("Game updated:", game);
         }
         else {
             game = new Game(params.body);
-            console.log("Game created", game);
         }
         return game.save();
+    });
+}
+
+function properties(params) {
+    return load(params).then(game => {
+        if(game != null) {
+            const tmp = game;
+            game.State.CustomProperties.myRoomActorStates = params.body.Properties.myRoomActorStates;
+            return game.save();
+        }
     });
 }
 
@@ -38,4 +46,9 @@ function remove(params) {
     return load(params).then(game => game.remove());
 }
 
-export default { load, get, create, update, list, remove };
+function getAvailableGames(params) {
+    const { limit = 50, skip = 0, id} = params;
+    return Game.getAvailableGames({limit, skip, id});
+}
+
+export default { load, get, create, update, list, remove, getAvailableGames, properties };

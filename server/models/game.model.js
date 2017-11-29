@@ -7,24 +7,40 @@ import APIError from '../helpers/APIError';
  * Game Schema
  */
 const GameSchema = new mongoose.Schema({
-    ActorCount: {
-        type: Number,
-    },
-    AppVersion: {
-        type: String
-    },
-    AppId: {
-        type: String
-    },
-    GameId: {
-        type: String
-    },
-    Region: {
-        type: String
-    },
+    ActorCount: Number,
+    AppVersion: String,
+    AppId: String,
+    GameId: String,
+    Region: String,
     State: {
-        type: Object
-    }
+        ActorCount: Number,
+        ActorList: [
+            {
+                ActorNr: Number,
+                UserId: String,
+                NickName: String,
+                Binary: String,
+                IsActive: Boolean,
+                IsInactive: Boolean,
+                DeactivationTime: String
+            }
+        ],
+        Binary: Object,
+        CheckUserOnJoin: Boolean,
+        CustomProperties: Object,
+        DeleteCacheOnLeave: Boolean,
+        EmptyRoomTTL: Number,
+        IsOpen: Boolean,
+        IsVisible: Boolean,
+        LobbyType: Number,
+        LobbyProperties: Object,
+        MaxPlayers: Number,
+        PlayerTTL: Number,
+        SuppressRoomEvents: Boolean,
+        Slice: Number,
+    },
+    UserId: String,
+    NickName: String
 });
 
 /**
@@ -70,6 +86,14 @@ GameSchema.statics = {
      */
     list({ skip = 0, limit = 50 } = {}) {
         return this.find()
+            .exists('State')
+            .skip(+skip)
+            .limit(+limit)
+            .exec();
+    },
+
+    getAvailableGames({ skip = 0, limit = 50, id } = {}) {
+        return this.find({ 'State.CustomProperties.game.id': parseInt(id) })
             .skip(+skip)
             .limit(+limit)
             .exec();
