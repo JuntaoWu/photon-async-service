@@ -1,6 +1,5 @@
 import Post from '../models/post.model';
 
-
 function load(params) {
   return Post.get(params.id);
 }

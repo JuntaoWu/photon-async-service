@@ -66,6 +66,7 @@ router.route('/properties')
 
         gameCtrl.properties(req)
             .then(savedGame => {
+                req.app.io.emit('properties');
                 let result = {
                     ResultCode: 0,
                     Message: "OK"

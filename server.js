@@ -1,11 +1,10 @@
 import mongoose from 'mongoose';
 import util from 'util';
 
-
 // config should be imported before importing any other file
 import config from './server/config/config';
 import app from './server/config/express';
-
+import socketIO from 'socket.io';
 
 const debug = require('debug')('express-mongoose-es6-rest-api:index');
 
@@ -30,6 +29,19 @@ if (config.MONGOOSE_DEBUG) {
 }
 // module.parent check is required to support mocha watch
 // src: https://github.com/mochajs/mocha/issues/1912
+
+app.io = socketIO(app.server);
+app.io.on('connection', function listener(socket) {
+  socket.on('connect', function(data){
+    console.log("client connected");
+  });
+  socket.on('event', function(data){
+    console.log("client send event");
+  });
+  socket.on('disconnect', function(){
+    console.log("client disconnected");
+  });
+});
 
   // listen on port config.port
   app.listen(config.port, () => {
