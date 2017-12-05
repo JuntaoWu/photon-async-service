@@ -1,4 +1,4 @@
-import Promise from 'bluebird';
+import Promise, { any } from 'bluebird';
 import mongoose from 'mongoose';
 import httpStatus from 'http-status';
 import APIError from '../helpers/APIError';
@@ -27,7 +27,11 @@ const GameSchema = new mongoose.Schema({
         ],
         Binary: Object,
         CheckUserOnJoin: Boolean,
-        CustomProperties: Object,
+        CustomProperties: {
+            game: Object,
+            myRoomActorStates: Array,
+            setupId: Number
+        },
         DeleteCacheOnLeave: Boolean,
         EmptyRoomTTL: Number,
         IsOpen: Boolean,
@@ -65,8 +69,8 @@ GameSchema.statics = {
      * @param {ObjectId} id - The objectId of game.
      * @returns {Promise<Game, APIError>}
      */
-    get(gameId) {
-        return this.find({ GameId: gameId })
+    get(roomname) {
+        return this.find({ GameId: roomname })
             .exec()
             .then((games) => {
                 if (games && games.length) {

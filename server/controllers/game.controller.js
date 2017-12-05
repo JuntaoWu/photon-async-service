@@ -4,8 +4,8 @@ function load(params) {
     return Game.get(params.body.GameId);
 }
 
-function get(req, res) {
-    return res.json(req.game);
+function get(req) {
+    return Game.get(req.params.roomname);
 }
 
 function create(params) {
@@ -32,6 +32,7 @@ function properties(params) {
         if(game != null) {
             const tmp = game;
             game.State.CustomProperties.myRoomActorStates = params.body.Properties.myRoomActorStates;
+            game.State.CustomProperties.setupId = params.body.Properties.setupId;
             return game.save();
         }
     });

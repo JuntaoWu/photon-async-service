@@ -30,22 +30,22 @@ if (config.MONGOOSE_DEBUG) {
 // module.parent check is required to support mocha watch
 // src: https://github.com/mochajs/mocha/issues/1912
 
-app.io = socketIO(app.server);
-app.io.on('connection', function listener(socket) {
-  socket.on('connect', function(data){
-    console.log("client connected");
-  });
-  socket.on('event', function(data){
-    console.log("client send event");
-  });
-  socket.on('disconnect', function(){
-    console.log("client disconnected");
-  });
-});
-
   // listen on port config.port
   app.listen(config.port, () => {
     console.info(`server started on port ${config.port} (${config.env})`); // eslint-disable-line no-console
+  });
+
+  app.io = socketIO(config.socketPort);
+  app.io.on('connection', function listener(socket) {
+    socket.on('connect', function(data){
+      console.log("client connected");
+    });
+    socket.on('event', function(data){
+      console.log("client send event");
+    });
+    socket.on('disconnect', function(){
+      console.log("client disconnected");
+    });
   });
 
 export default app;

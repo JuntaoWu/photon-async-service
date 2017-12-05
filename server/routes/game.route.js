@@ -28,6 +28,12 @@ router.route('/availablerooms')
         }).catch(next);
     });
 
+router.route('/:roomname').get((req, res, next) => {
+    gameCtrl.get(req).then(game => {
+        return res.json(game);
+    });
+});
+
 router.route('/create')
     .post(validate(paramValidation.createGame), (req, res, next) => {
         console.log("create:", req.body);
@@ -66,7 +72,7 @@ router.route('/properties')
 
         gameCtrl.properties(req)
             .then(savedGame => {
-                req.app.io.emit('properties');
+                req.app.io.emit('properties', { roomname: savedGame.GameId });
                 let result = {
                     ResultCode: 0,
                     Message: "OK"

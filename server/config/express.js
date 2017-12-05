@@ -37,7 +37,7 @@ app.use(methodOverride());
 app.use(helmet());
 
 // enable CORS - Cross Origin Resource Sharing
-app.use(cors({ origin: "http://127.0.0.1:5000" }));
+app.use(cors({ origin: ["http://127.0.0.1:5000", "http://localhost:5000", "http://192.168.3.202:8000"], credentials: true }));
 
 // enable detailed API logging in dev env
 if (config.env === 'development') {
