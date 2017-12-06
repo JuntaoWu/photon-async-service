@@ -56,12 +56,20 @@ router.route('/load')
 
         gameCtrl.load(req)
             .then(game => {
-                let result = {
-                    ResultCode: 0,
-                    Message: "OK",
-                    State: game && game.State,
-                };
-                return res.json(result);
+                if(!game && !req.body.CreateIfNotExists) {
+                    return res.json({
+                        ResultCode: 3,
+                        Message: "Game not found and won't create"
+                    });
+                }
+                else {
+                    let result = {
+                        ResultCode: 0,
+                        Message: "OK",
+                        State: game && game.State,
+                    };
+                    return res.json(result);
+                }
             })
             .catch(next);
     });
@@ -89,16 +97,11 @@ router.route('/join')
     .post((req, res, next) => {
         console.log("join:", req.body);
 
-        gameCtrl.load(req)
-            .then(game => {
-                let result = {
-                    ResultCode: 0,
-                    Message: "OK",
-                    State: game && game.State,
-                };
-                return res.json(result);
-            })
-            .catch(next);
+        return res.json({
+            ResultCode: 0,
+            Message: "OK"
+        });
+        
     });
 
 

@@ -27,11 +27,7 @@ const GameSchema = new mongoose.Schema({
         ],
         Binary: Object,
         CheckUserOnJoin: Boolean,
-        CustomProperties: {
-            game: Object,
-            myRoomActorStates: Array,
-            setupId: Number
-        },
+        CustomProperties: Object,
         DeleteCacheOnLeave: Boolean,
         EmptyRoomTTL: Number,
         IsOpen: Boolean,
