@@ -33,7 +33,7 @@ const GameSchema = new mongoose.Schema({
         IsOpen: Boolean,
         IsVisible: Boolean,
         LobbyType: Number,
-        LobbyProperties: Object,
+        LobbyProperties: Array,
         MaxPlayers: Number,
         PlayerTTL: Number,
         SuppressRoomEvents: Boolean,
