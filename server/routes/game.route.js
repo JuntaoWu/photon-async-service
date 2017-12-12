@@ -59,7 +59,8 @@ router.route('/load')
                 if(!game && !req.body.CreateIfNotExists) {
                     return res.json({
                         ResultCode: 3,
-                        Message: "Game not found and won't create"
+                        Message: "Game not found and won't create",
+                        State: "",
                     });
                 }
                 else {
@@ -68,6 +69,7 @@ router.route('/load')
                         Message: "OK",
                         State: game && game.State,
                     };
+                    console.log(result);
                     return res.json(result);
                 }
             })

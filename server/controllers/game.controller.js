@@ -18,6 +18,8 @@ function update(params) {
     return load(params).then(game => {
         if(game != null) {
             const tmp = game;
+            game.ActorCount = params.body.ActorCount;
+            
             game.State = params.body.State;
         }
         else {

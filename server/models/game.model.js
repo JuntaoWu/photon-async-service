@@ -13,7 +13,7 @@ const GameSchema = new mongoose.Schema({
     GameId: String,
     Region: String,
     State: {
-        ActorCount: Number,
+        ActorCounter: Number,
         ActorList: [
             {
                 ActorNr: Number,
