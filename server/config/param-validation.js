@@ -20,6 +20,12 @@ export default {
       Type: Joi.string().required(),
     }
   },
+  // POST /api/snapshot
+  createSnapshot: {
+    body: {
+      GameSetupId: Joi.number().required(),
+    }
+  },
   // UPDATE /api/users/:userId
   updateUser: {
     body: {
@@ -47,6 +53,15 @@ export default {
     },
     params: {
       GameId: Joi.string().required()
+    }
+  },
+  // UPDATE /api/posts/:postId
+  updateSnapshot: {
+    body: {
+      GameSetupId: Joi.number().required(),
+    },
+    params: {
+      snapshotId: Joi.number().required()
     }
   },
   // POST /api/auth/login

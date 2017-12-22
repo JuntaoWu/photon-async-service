@@ -14,14 +14,26 @@ router.route('/')
     })
 
     /** snapshot /api/snapshots - Create new snapshot */
-    .post(validate(paramValidation.createsnapshot), snapshotCtrl.create);
+    .post(validate(paramValidation.createSnapshot), (req, res, next) => {
+        snapshotCtrl.create(req).then(savedSnapshot => {
+            return res.json({
+                Status: 0,
+                Code: 200,
+                Message: "OK"
+            });
+        });
+    });
 
 router.route('/:snapshotId')
     /** GET /api/snapshot/:snapshotId - Get snapshot */
-    .get(snapshotCtrl.get)
+    .get((req, res, next) => {
+        snapshotCtrl.get(req).then(snapshot => {
+            return res.json(snapshot);
+        });
+    })
 
     /** PUT /api/snapshots/:snapshotId - Update snapshot */
-    .put(validate(paramValidation.updatesnapshot), snapshotCtrl.update)
+    .put(validate(paramValidation.updateSnapshot), snapshotCtrl.update)
 
     /** DELETE /api/snapshots/:snapshotId - Delete snapshot */
     .delete(snapshotCtrl.remove);

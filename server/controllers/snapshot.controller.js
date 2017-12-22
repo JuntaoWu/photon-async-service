@@ -1,7 +1,7 @@
 import Snapshot from '../models/snapshot.model';
 
-function load(params) {
-  return Snapshot.get(params.id);
+function load(req) {
+  return Snapshot.get(req.params.snapshotId);
 }
 
 function get(req, res) {
@@ -10,8 +10,10 @@ function get(req, res) {
 
 function create(params) {
   const snapshot = new Snapshot({
-    title: params.data.title,
-    content: params.data.content
+    GameSetupId: params.body.GameSetupId,
+    TableInfo: params.body.TableInfo,
+    CameraInfo: params.body.CameraInfo,
+    AssetList: params.body.AssetList
   });
   return snapshot.save();
 }

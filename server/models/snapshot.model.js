@@ -7,40 +7,19 @@ import APIError from '../helpers/APIError';
  * Snapshot Schema
  */
 const SnapshotSchema = new mongoose.Schema({
-    ActorCount: Number,
-    AppVersion: String,
-    AppId: String,
-    SnapshotId: String,
-    Region: String,
-    State: {
-        ActorCounter: Number,
-        ActorList: [
-            {
-                ActorNr: Number,
-                UserId: String,
-                NickName: String,
-                Binary: String,
-                IsActive: Boolean,
-                IsInactive: Boolean,
-                DeactivationTime: String
-            }
-        ],
-        Binary: Object,
-        CheckUserOnJoin: Boolean,
-        CustomProperties: Object,
-        DeleteCacheOnLeave: Boolean,
-        EmptyRoomTTL: Number,
-        IsOpen: Boolean,
-        IsVisible: Boolean,
-        LobbyType: Number,
-        LobbyProperties: Array,
-        MaxPlayers: Number,
-        PlayerTTL: Number,
-        SuppressRoomEvents: Boolean,
-        Slice: Number,
+    GameSetupId: {
+        type: Number,
+        required: true
     },
-    UserId: String,
-    NickName: String
+    TableInfo: {
+        type: Object
+    },
+    CameraInfo: {
+        type: Object
+    },
+    AssetList: {
+        type: Array
+    }
 });
 
 /**
