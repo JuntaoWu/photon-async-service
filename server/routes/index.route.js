@@ -3,6 +3,7 @@ import userRoutes from './user.route';
 import authRoutes from './auth.route';
 import postRoutes from './post.route';
 import gameRoutes from './game.route';
+import snapshotRoutes from './snapshot.route';
 
 const router = express.Router(); // eslint-disable-line new-cap
 
@@ -20,5 +21,7 @@ router.use('/auth', authRoutes);
 router.use('/posts', postRoutes);
 
 router.use('/games/:appId', gameRoutes);
+
+router.use('/snapshots', snapshotRoutes);
 
 export default router;

@@ -56,7 +56,7 @@ router.route('/load')
 
         gameCtrl.load(req)
             .then(game => {
-                if(!game && !req.body.CreateIfNotExists) {
+                if (!game && !req.body.CreateIfNotExists) {
                     return res.json({
                         ResultCode: 3,
                         Message: "Game not found and won't create",
@@ -103,7 +103,7 @@ router.route('/join')
             ResultCode: 0,
             Message: "OK"
         });
-        
+
     });
 
 
@@ -131,6 +131,5 @@ router.route('/save')
             })
             .catch(e => next(e));
     });
-
 
 export default router;
