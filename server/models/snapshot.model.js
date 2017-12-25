@@ -7,6 +7,10 @@ import APIError from '../helpers/APIError';
  * Snapshot Schema
  */
 const SnapshotSchema = new mongoose.Schema({
+    GameId: {
+        type: Number,
+        required: true
+    },
     GameSetupId: {
         type: Number,
         required: true
@@ -19,6 +23,10 @@ const SnapshotSchema = new mongoose.Schema({
     },
     AssetList: {
         type: Array
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
     }
 });
 
@@ -46,29 +54,29 @@ SnapshotSchema.statics = {
      */
     get(id) {
         return this.findById(id)
-          .exec()
-          .then((post) => {
-            if (post) {
-              return post;
-            }
-            const err = new APIError('No such post exists!', httpStatus.NOT_FOUND);
-            return Promise.reject(err);
-          });
-      },
-    
-      /**
-       * List posts in descending order of 'createdAt' timestamp.
-       * @param {number} skip - Number of posts to be skipped.
-       * @param {number} limit - Limit number of posts to be returned.
-       * @returns {Promise<Post[]>}
-       */
-      list({ skip = 0, limit = 50 } = {}) {
-        return this.find()
-          .sort({ createdAt: -1 })
-          .skip(+skip)
-          .limit(+limit)
-          .exec();
-      }
+            .exec()
+            .then((post) => {
+                if (post) {
+                    return post;
+                }
+                const err = new APIError('No such post exists!', httpStatus.NOT_FOUND);
+                return Promise.reject(err);
+            });
+    },
+
+    /**
+     * List posts in descending order of 'createdAt' timestamp.
+     * @param {number} skip - Number of posts to be skipped.
+     * @param {number} limit - Limit number of posts to be returned.
+     * @returns {Promise<Post[]>}
+     */
+    list({ skip = 0, limit = 50, GameId = 0 } = {}) {
+        return this.find({ GameId: GameId }, ['_id', 'GameId', 'GameSetupId', 'createdAt'])
+            .sort({ createdAt: -1 })
+            .skip(+skip)
+            .limit(+limit)
+            .exec();
+    }
 };
 
 /**

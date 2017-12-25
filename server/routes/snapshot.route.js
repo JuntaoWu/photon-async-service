@@ -9,7 +9,17 @@ router.route('/')
     /** GET /api/snapshots - Get list of snapshots */
     .get((req, res, next) => {
         snapshotCtrl.list(req.query)
-            .then(users => { res.json(users); })
+            .then(snapshots => {
+                let result = snapshots.map(m => {
+                    return {
+                        SnapshotId: m._id,
+                        GameId: m.GameId,
+                        GameSetupId: m.GameSetupId,
+                        CreatedAt: m.createdAt
+                    };
+                });
+                res.json(result);
+            })
             .catch(next);
     })
 
@@ -26,11 +36,7 @@ router.route('/')
 
 router.route('/:snapshotId')
     /** GET /api/snapshot/:snapshotId - Get snapshot */
-    .get((req, res, next) => {
-        snapshotCtrl.get(req).then(snapshot => {
-            return res.json(snapshot);
-        });
-    })
+    .get(snapshotCtrl.get)
 
     /** PUT /api/snapshots/:snapshotId - Update snapshot */
     .put(validate(paramValidation.updateSnapshot), snapshotCtrl.update)
