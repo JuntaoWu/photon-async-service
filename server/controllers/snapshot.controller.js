@@ -38,8 +38,8 @@ function update(params) {
 }
 
 function list(params) {
-  const { limit = 50, skip = 0, GameSetupId = 0 } = params;
-  return Snapshot.list({ limit, skip, GameSetupId })
+  const { limit = 50, skip = 0, GameId = 0 } = params;
+  return Snapshot.list({ limit, skip, GameId })
 }
 
 function remove(params) {
