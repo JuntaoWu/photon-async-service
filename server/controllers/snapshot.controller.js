@@ -23,7 +23,8 @@ function create(params) {
     GameSetupId: params.body.GameSetupId,
     TableInfo: params.body.TableInfo,
     CameraInfo: params.body.CameraInfo,
-    AssetList: params.body.AssetList
+    AssetList: params.body.AssetList,
+    createdBy: params.body.createdBy,
   });
   return snapshot.save();
 }
@@ -31,15 +32,19 @@ function create(params) {
 function update(params) {
   return load(params).then(snapshot => {
     const tmp = snapshot;
-    snapshot.title = params.data.title;
-    snapshot.content = params.data.content;
+    snapshot.GameId = params.data.GameId;
+    snapshot.GameSetupId = params.data.GameSetupId;
+    snapshot.TableInfo = params.data.TableInfo;
+    snapshot.CameraInfo = params.data.CameraInfo;
+    snapshot.AssetList = params.data.AssetList;
+    snapshot.createdBy = params.data.createdBy;
     return snapshot.save()
   });
 }
 
 function list(params) {
-  const { limit = 50, skip = 0, GameId = 0 } = params;
-  return Snapshot.list({ limit, skip, GameId })
+  const { limit = 50, skip = 0, GameId = 0, createdBy } = params;
+  return Snapshot.list({ limit, skip, GameId, createdBy })
 }
 
 function remove(params) {

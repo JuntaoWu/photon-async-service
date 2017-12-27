@@ -27,6 +27,9 @@ const SnapshotSchema = new mongoose.Schema({
     createdAt: {
         type: Date,
         default: Date.now
+    },
+    createdBy: {
+        type: String,
     }
 });
 
@@ -70,8 +73,8 @@ SnapshotSchema.statics = {
      * @param {number} limit - Limit number of posts to be returned.
      * @returns {Promise<Post[]>}
      */
-    list({ skip = 0, limit = 50, GameId = 0 } = {}) {
-        return this.find({ GameId: GameId }, ['_id', 'GameId', 'GameSetupId', 'createdAt'])
+    list({ skip = 0, limit = 50, GameId = 0, createdBy } = {}) {
+        return this.find({ GameId: GameId, createdBy: createdBy }, ['_id', 'GameId', 'GameSetupId', 'createdAt'])
             .sort({ createdAt: -1 })
             .skip(+skip)
             .limit(+limit)
