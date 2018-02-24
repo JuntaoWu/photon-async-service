@@ -24,7 +24,28 @@ router.route('/availablerooms')
         const promise = req.query.id ? gameCtrl.getAvailableGames(req.query) : gameCtrl.list(req.query);
 
         promise.then(games => {
-            return res.json(games);
+            return gameCtrl.countAvailableGames(req.query).then(total => {
+                return res.json({
+                    total: total,
+                    items: games
+                });
+            });
+        }).catch(next);
+    });
+
+router.route('/playingrooms')
+    .get((req, res, next) => {
+        console.log("playingrooms:", req.query);
+
+        const promise = req.query.id ? gameCtrl.getAvailableRooms(req.query) : gameCtrl.listRooms(req.query);
+
+        promise.then(rooms => {
+            return gameCtrl.countAvailableRooms(req.query).then(total => {
+                return res.json({
+                    total: total,
+                    items: rooms
+                });
+            });
         }).catch(next);
     });
 
@@ -105,7 +126,6 @@ router.route('/join')
         });
 
     });
-
 
 router.route('/leave')
     .post((req, res, next) => {

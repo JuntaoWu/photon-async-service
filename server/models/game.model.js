@@ -6,7 +6,7 @@ import APIError from '../helpers/APIError';
 /**
  * Game Schema
  */
-const GameSchema = new mongoose.Schema({
+export const GameSchema = new mongoose.Schema({
     ActorCount: Number,
     AppVersion: String,
     AppId: String,
@@ -86,14 +86,15 @@ GameSchema.statics = {
      */
     list({ skip = 0, limit = 50 } = {}) {
         return this.find()
-            .exists('State')
+            .exists('State.CustomProperties.game')
             .skip(+skip)
             .limit(+limit)
             .exec();
     },
 
     getAvailableGames({ skip = 0, limit = 50, id } = {}) {
-        return this.find({ 'State.CustomProperties.game.id': parseInt(id) })
+        return this.find({ 'State.CustomProperties.game.id': +id })
+            .exists('State.CustomProperties.game')
             .skip(+skip)
             .limit(+limit)
             .exec();
