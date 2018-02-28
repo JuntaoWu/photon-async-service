@@ -13,7 +13,9 @@ const RoomSchema = new mongoose.Schema({
     Game: GameSchema,
     UserId: String,
     NickName: String,
-    Status: String,
+    Status: Number,
+    MyRoomActorStates: Array,
+    SetupId: Number
 });
 
 /**
@@ -57,15 +59,15 @@ RoomSchema.statics = {
      * @param {number} limit - Limit number of rooms to be returned.
      * @returns {Promise<Room[]>}
      */
-    list({ skip = 0, limit = 50 } = {}) {
-        return this.find()
+    list({ skip = 0, limit = 50, status } = {}) {
+        return this.find({ 'Status': +status })
             .skip(+skip)
             .limit(+limit)
             .exec();
     },
 
-    getAvailableRooms({ skip = 0, limit = 50, id } = {}) {
-        return this.find({ 'GameId': +id })
+    getAvailableRooms({ skip = 0, limit = 50, id, status } = {}) {
+        return this.find({ 'GameId': +id, 'Status': +status })
             .skip(+skip)
             .limit(+limit)
             .exec();

@@ -2,6 +2,7 @@ import express from 'express';
 import validate from 'express-validation';
 import paramValidation from '../config/param-validation';
 import gameCtrl from '../controllers/game.controller';
+import roomCtrl from '../controllers/room.controller';
 
 const router = express.Router();
 
@@ -28,6 +29,23 @@ router.route('/availablerooms')
                 return res.json({
                     total: total,
                     items: games
+                });
+            });
+        }).catch(next);
+    });
+
+
+router.route('/rooms')
+    .get((req, res, next) => {
+        console.log("rooms:", req.query);
+
+        const promise = req.query.id ? gameCtrl.getAvailableRooms(req.query) : gameCtrl.listRooms(req.query);
+
+        promise.then(rooms => {
+            return gameCtrl.countAvailableRooms(req.query).then(total => {
+                return res.json({
+                    total: total,
+                    items: rooms
                 });
             });
         }).catch(next);
@@ -103,7 +121,7 @@ router.route('/properties')
 
         gameCtrl.properties(req)
             .then(savedGame => {
-                req.app.io.emit('properties', { roomname: savedGame.GameId });
+                req.app.io.emit('properties', {});
                 let result = {
                     ResultCode: 0,
                     Message: "OK"
@@ -130,6 +148,10 @@ router.route('/join')
 router.route('/leave')
     .post((req, res, next) => {
         console.log("leave:", req.body);
+
+        roomCtrl.leave(req).then(savedRoom => {
+            req.app.io.emit('properties', {});
+        });
 
         return res.json({
             ResultCode: 0,
